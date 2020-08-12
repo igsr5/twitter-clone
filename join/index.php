@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    $error=array('name'=>'','email'=>'','password'=>'');
+    $error=array('name'=>'','email'=>'','password'=>'','image'=>'');
 
     if(!empty($_POST)){
         // エラー項目の確認
@@ -18,12 +18,26 @@
             $error['password']='blank';
         }
 
+        $fileName=$_FILES['image']['name'];
+        if(!empty($fileName)){
+            $ext=substr($fileName,-3);
+            if($ext != 'jpg' && $ext!= 'gif'){
+                $error['image']='type';
+            }
+        }
 
-        if(empty($error)){
+        if($error['name']=='' && $error['email']=='' && $error['password']=='' && $error['image']==''){
+            // 画像をアップロードする
+            $image=date('YmdHis').$_FILES['image']['name'];
+            move_uploaded_file($_FILES['image']['tmp_name'],'../member_picture/'.$image);
             $_SESSION['join']=$_POST;
+            $_SESSION['join']['image']=$image;
             header('Location: check.php');
             exit();
+        }else{
+            echo 'aaaaaaaa';
         }
+
     }
 ?>
 
@@ -68,7 +82,14 @@
                     <?php endif; ?>
                 </dd>
                 <dt>写真など</dt>
-                <dd><input type="file" name="image" size="35" /></dd>
+                <dd>
+                    <input type="file" name="image" size="35" />
+                    <?php if($error['image']=='type'): ?>
+                    <p>＊写真は.jpgか.gif形式で指定してください</p>
+                    <?php endif; ?>
+
+
+                </dd>
             </dl>
             <div><input type="submit" value="入力内容を確認する" /></div>
 		</form>
