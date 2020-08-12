@@ -1,6 +1,8 @@
 <?php
     session_start();
 
+    $error=array('name'=>'','email'=>'','password'=>'');
+
     if(!empty($_POST)){
         // エラー項目の確認
         if($_POST['name']==''){
@@ -39,22 +41,19 @@
             <dl>
                 <dt>ニックネーム<span class="required">必須</span></dt>
                 <dd>
-                    <input type="text" name="name" size="35" maxlength="255" />
-                    <?php if(!empty($_POST)): ?>
+                    <input type="text" name="name" size="35" maxlength="255" value="<?php empty($_POST) ? print "" : print htmlspecialchars($_POST['name'],ENT_QUOTES); ?>"/>
                     <?php if($error['name']=='blank'): ?>
                     <p>＊ニックネームを入力してください</p>
-                    <?php endif; ?>
                     <?php endif; ?>
                 </dd>
 
                 <dt>メールアドレス<span class="required">必須</span></dt>
                 <dd>
-                    <input type="text" name="email" size="35" maxlength="255" />
+                    <input type="text" name="email" size="35" maxlength="255" value="<?php empty($_POST) ? print "" : print htmlspecialchars($_POST['email'],ENT_QUOTES); ?>"/>
 
-                    <?php if(!empty($_POST)): ?>
+
                     <?php if($error['email']=='blank'): ?>
                     <p>＊メールアドレスを入力してください</p>
-                    <?php endif; ?>
                     <?php endif; ?>
                 </dd>
 
@@ -62,12 +61,10 @@
                 <dd>
                     <input type="password" name="password" size="10" maxlength="20"/>
 
-                    <?php if(!empty($_POST)): ?>
                     <?php if($error['password']=='blank'): ?>
                     <p>＊パスワードを入力してください</p>
                     <?php elseif($error['password']=='length'): ?>
                     <p>＊4文字以上入力してください</p>
-                    <?php endif; ?>
                     <?php endif; ?>
                 </dd>
                 <dt>写真など</dt>
