@@ -17,7 +17,7 @@
         }
 
 
-        if($empty($error)){
+        if(empty($error)){
             $_SESSION['join']=$_POST;
             header('Location: check.php');
             exit();
@@ -36,25 +36,44 @@
 <body>
 <p>次のフォームに必要事項をご記入ください。</p>
 		<form action="" method="post" enctype="multipart/form-data">
-		<dl>
-		<dt>ニックネーム<span class="required">必須</span></dt>
-		<dd>
-            <input type="text" name="name" size="35" maxlength="255" />
-            <?php
-            if($error['name']=='blank'){
-                echo '<p>ニックネームを登録してください</p>';
-            }
-            ?>
-        </dd>
-		<dt>メールアドレス<span class="required">必須</span></dt>
-		<dd><input type="text" name="email" size="35" maxlength="255" /></dd>
-		<dt>パスワード<span class="required">必須</span></dt>
-		<dd><input type="password" name="password" size="10" maxlength="20"
-		/></dd>
-		<dt>写真など</dt>
-		<dd><input type="file" name="image" size="35" /></dd>
-		</dl>
-		<div><input type="submit" value="入力内容を確認する" /></div>
+            <dl>
+                <dt>ニックネーム<span class="required">必須</span></dt>
+                <dd>
+                    <input type="text" name="name" size="35" maxlength="255" />
+                    <?php if(!empty($_POST)): ?>
+                    <?php if($error['name']=='blank'): ?>
+                    <p>＊ニックネームを入力してください</p>
+                    <?php endif; ?>
+                    <?php endif; ?>
+                </dd>
+
+                <dt>メールアドレス<span class="required">必須</span></dt>
+                <dd>
+                    <input type="text" name="email" size="35" maxlength="255" />
+
+                    <?php if(!empty($_POST)): ?>
+                    <?php if($error['email']=='blank'): ?>
+                    <p>＊メールアドレスを入力してください</p>
+                    <?php endif; ?>
+                    <?php endif; ?>
+                </dd>
+
+                <dt>パスワード<span class="required">必須</span></dt>
+                <dd>
+                    <input type="password" name="password" size="10" maxlength="20"/>
+
+                    <?php if(!empty($_POST)): ?>
+                    <?php if($error['password']=='blank'): ?>
+                    <p>＊パスワードを入力してください</p>
+                    <?php elseif($error['password']=='length'): ?>
+                    <p>＊4文字以上入力してください</p>
+                    <?php endif; ?>
+                    <?php endif; ?>
+                </dd>
+                <dt>写真など</dt>
+                <dd><input type="file" name="image" size="35" /></dd>
+            </dl>
+            <div><input type="submit" value="入力内容を確認する" /></div>
 		</form>
 </body>
 </html>
