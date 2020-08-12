@@ -1,3 +1,31 @@
+<?php
+    session_start();
+
+    if(!empty($_POST)){
+        // エラー項目の確認
+        if($_POST['name']==''){
+            $error['name']='blank';
+        }
+        if($_POST['email']==''){
+            $error['email']='blank';
+        }
+        if(strlen($_POST['password'])<4){
+            $error['password']='length';
+        }
+        if($_POST['password']==''){
+            $error['password']='blank';
+        }
+
+
+        if($empty($error)){
+            $_SESSION['join']=$_POST;
+            header('Location: check.php');
+            exit();
+        }
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +38,14 @@
 		<form action="" method="post" enctype="multipart/form-data">
 		<dl>
 		<dt>ニックネーム<span class="required">必須</span></dt>
-		<dd><input type="text" name="name" size="35" maxlength="255" /></dd>
+		<dd>
+            <input type="text" name="name" size="35" maxlength="255" />
+            <?php
+            if($error['name']=='blank'){
+                echo '<p>ニックネームを登録してください</p>';
+            }
+            ?>
+        </dd>
 		<dt>メールアドレス<span class="required">必須</span></dt>
 		<dd><input type="text" name="email" size="35" maxlength="255" /></dd>
 		<dt>パスワード<span class="required">必須</span></dt>
