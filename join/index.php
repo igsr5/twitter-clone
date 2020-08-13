@@ -34,8 +34,6 @@
             $_SESSION['join']['image']=$image;
             header('Location: check.php');
             exit();
-        }else{
-            echo 'aaaaaaaa';
         }
 
     }
