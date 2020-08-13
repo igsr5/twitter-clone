@@ -1,4 +1,6 @@
 <?php
+    require('../dbconnect.php');
+
     session_start();
 
     $error=array('name'=>'','email'=>'','password'=>'','image'=>'');
@@ -27,6 +29,15 @@
         }
 
         if($error['name']=='' && $error['email']=='' && $error['password']=='' && $error['image']==''){
+            $member=$db->prepare('SELECT COUNT(*) AS cnt FROM members WHERE email=?');
+            $member->execute(array($_POST['email']));
+            $record=$member->fetch();
+            if($record['cnt']>0){
+                $error['email']='duplicate';
+            }
+        }
+
+        if($error['name']=='' && $error['email']=='' && $error['password']=='' && $error['image']==''){
             // 画像をアップロードする
             $image=date('YmdHis').$_FILES['image']['name'];
             move_uploaded_file($_FILES['image']['tmp_name'],'../member_picture/'.$image);
@@ -36,13 +47,12 @@
             exit();
         }
     }
-    if($_REQUEST){
-        if($_REQUEST['action']==='rewrite'){
+    if(!empty($_REQUEST['action'])){
+        if($_REQUEST['action']=='rewrite'){
             $_POST=$_SESSION['join'];
         }
     }
 
-    // 書き直し
 
 ?>
 
@@ -73,6 +83,8 @@
 
                     <?php if($error['email']=='blank'): ?>
                     <p>＊メールアドレスを入力してください</p>
+                    <?php elseif($error['email']=='duplicate'): ?>
+                    <p>＊指定されたメールアドレスは既に登録されています</p>
                     <?php endif; ?>
                 </dd>
 
