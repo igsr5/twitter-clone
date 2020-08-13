@@ -35,8 +35,12 @@
             header('Location: check.php');
             exit();
         }
-
+    }if($_REQUEST['action']==='rewrite'){
+        $_POST=$_SESSION['join'];
     }
+
+    // 書き直し
+
 ?>
 
 
