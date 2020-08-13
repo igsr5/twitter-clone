@@ -37,7 +37,6 @@
         }
     }
     if($_REQUEST){
-
         if($_REQUEST['action']==='rewrite'){
             $_POST=$_SESSION['join'];
         }
