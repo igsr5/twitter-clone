@@ -1,6 +1,23 @@
 <?php
 session_start();
 require('dbconnect.php');
+
+// ログインしているかチェック
+if (isset($_SESSION['id']) && $_SESSION['time']+3600 > time()) {
+    // ログインしている
+    $_SESSION['time']=time();
+
+    $members=$db->prepare('SELECT * FROM members WHERE id=?');
+    $members->execute(array($_SESSION['id']));
+
+    $member=$members->fetch();
+}else{
+    // ログインしていない
+    header('Location: login.php');
+    exit();
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +30,7 @@ require('dbconnect.php');
 <body>
     <form action="" method='post'>
         <dl>
+        <?php echo htmlspecialchars($member['name'],ENT_QUOTES).'さん'; ?>
             <dt>メッセージをどうぞ</dt>
             <dd><textarea name="message" id="" cols="30" rows="10"></textarea></dd>
         </dl>
