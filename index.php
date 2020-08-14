@@ -27,8 +27,12 @@ if(!empty($_POST)){
         ));
 
         header('Location: index.php');
+        exit();
     }
 }
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +61,12 @@ if(!empty($_POST)){
             $members->execute(array($post['member_id']));
             $member=$members->fetch();
             echo '<p>'.$member['name'].':'.$post['message'].'</p>';
+            echo '<a href="index.php?res='.htmlspecialchars($post['id'],ENT_QUOTES).'">Re</a>';
             echo '<p>'.$post['created'].'</p>';
+            if($post['member_id']==$_SESSION['id']){
+                echo '<a href="index.php?delete='.htmlspecialchars($post['id'],ENT_QUOTES).'">削除</a>';
+            }
+            echo '<hr>';
         }
 
         ?>
