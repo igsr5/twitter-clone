@@ -31,7 +31,16 @@ if(!empty($_POST)){
     }
 }
 
-
+// 投稿を削除する
+if(!empty($_REQUEST['delete'])){
+    $getId=$db->prepare('SELECT * FROM posts WHERE id=?');
+    $post=$getId->execute(array($_REQUEST['delete']));
+    $post_num=$post->fetch();
+    if($_SESSION['id']==$post_num['member_id']){
+        $del=$db->prepare('DELETE FROM posts WHERE id=?');
+        $del->execute(array($_REQUEST['delete']));
+    }
+}
 
 ?>
 
@@ -64,7 +73,7 @@ if(!empty($_POST)){
             echo '<a href="index.php?res='.htmlspecialchars($post['id'],ENT_QUOTES).'">Re</a>';
             echo '<p>'.$post['created'].'</p>';
             if($post['member_id']==$_SESSION['id']){
-                echo '<a href="index.php?delete='.htmlspecialchars($post['id'],ENT_QUOTES).'">削除</a>';
+                echo '<a href="delete.php?delete='.htmlspecialchars($post['id'],ENT_QUOTES).'">削除</a>';
             }
             echo '<hr>';
         }
