@@ -31,16 +31,7 @@ if(!empty($_POST)){
     }
 }
 
-// 投稿を削除する
-if(!empty($_REQUEST['delete'])){
-    $getId=$db->prepare('SELECT * FROM posts WHERE id=?');
-    $post=$getId->execute(array($_REQUEST['delete']));
-    $post_num=$post->fetch();
-    if($_SESSION['id']==$post_num['member_id']){
-        $del=$db->prepare('DELETE FROM posts WHERE id=?');
-        $del->execute(array($_REQUEST['delete']));
-    }
-}
+
 
 ?>
 
