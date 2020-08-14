@@ -43,6 +43,10 @@ if(!empty($_POST)){
     <title>Document</title>
 </head>
 <body>
+    <!-- ログアウト -->
+    <div>
+        <a href="logout.php">ログアウト</a>
+    </div>
     <!-- 投稿フォーム -->
     <form action="" method='post'>
         <dl>
