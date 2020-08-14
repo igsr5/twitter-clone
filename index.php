@@ -39,6 +39,7 @@ if(!empty($_POST)){
     <title>Document</title>
 </head>
 <body>
+    <!-- 投稿フォーム -->
     <form action="" method='post'>
         <dl>
         <?php echo htmlspecialchars($member['name'],ENT_QUOTES).'さん'; ?>
@@ -47,5 +48,19 @@ if(!empty($_POST)){
         </dl>
         <div><input type="submit" value="投稿する"></div>
     </form>
+
+    <!-- 投稿一覧 -->
+    <div>
+        <?php
+        $posts=$db->query('SELECT * FROM posts');
+        while($post = $posts->fetch()){
+            $members->execute(array($post['member_id']));
+            $member=$members->fetch();
+            echo '<p>'.$member['name'].':'.$post['message'].'</p>';
+            echo '<p>'.$post['created'].'</p>';
+        }
+
+        ?>
+    </div>
 </body>
 </html>
